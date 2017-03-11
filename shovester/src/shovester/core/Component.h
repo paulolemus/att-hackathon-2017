@@ -5,6 +5,8 @@ class Component {
 public:
     virtual std::string getName() const = 0;
 
+    virtual ~Component() {}
+
 private:
 };
 

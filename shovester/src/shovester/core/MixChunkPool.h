@@ -11,8 +11,8 @@
 
 /// @brief Holds SDL_mixer's Mix_Chunk*, and loads it from
 ///        files, prefixed by the path.
-template <typename ResourceType = Mix_Chunk*>
-class MixChunkPool : public IResourcePool<ResourceType> {
+class MixChunkPool : public IResourcePool<Mix_Chunk*> {
+    using ResourceType = Mix_Chunk*;
 public:
     /// @brief Assumes that the Mix_OpenAudio was already
     ///        called by an external subsystem.

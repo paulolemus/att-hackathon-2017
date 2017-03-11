@@ -7,6 +7,7 @@
 #include "shovester/core/Component.h"
 
 class StringTable : public Component {
+public:
     StringTable(std::string name) :
         name(name) {}
 

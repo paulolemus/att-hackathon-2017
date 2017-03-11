@@ -12,8 +12,8 @@
 
 /// @brief Holds SDL_Texture*, and loads it from
 ///        files, prefixed by the path.
-template <typename ResourceType = SDL_Texture*>
-class TexturePool : public IResourcePool<ResourceType> {
+class TexturePool : public IResourcePool<SDL_Texture*> {
+    using ResourceType = SDL_Texture*;
 public:
     /// @brief Must take a Renderer to load the image and turn it
     ///        into a SDL_Texture*. Also must take a path string to

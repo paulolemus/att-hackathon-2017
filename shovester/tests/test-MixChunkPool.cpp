@@ -11,7 +11,7 @@ TEST(MixChunkPool, basic) {
     SDLBase sdlBase;
 
     // Create the TexturePool from the Renderer.
-    MixChunkPool<Mix_Chunk*> mixChunkPool("./resources/sound/");
+    MixChunkPool mixChunkPool("./resources/sound/");
 
     // Load in a test image.
     mixChunkPool.loadResource("Evillaugh.ogg", "test1");

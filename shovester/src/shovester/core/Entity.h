@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <algorithm>
 
 #include "shovester/core/Component.h"
 
@@ -23,7 +24,12 @@ public:
     }
 
     void addComponent(Component* comp) {
-        if (components.find(comp) == comp.end()) {
+        auto found = std::find(
+            components.begin(),
+            components.end(),
+            comp
+        );
+        if (found == components.end()) {
             components.push_back(comp);
         } else {
             throw std::runtime_error("Could not add component to same vector");
@@ -31,8 +37,12 @@ public:
     }
 
     void removeComponent(Component* comp) {
-        auto found = components.find(comp);
-        if (found != comp.end()) {
+        auto found = std::find(
+            components.begin(),
+            components.end(),
+            comp
+        );
+        if (found != components.end()) {
             delete *found;
             components.erase(found);
         }

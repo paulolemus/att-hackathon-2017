@@ -15,7 +15,7 @@ TEST(TexturePool, basic) {
     Renderer renderer(window.get());
 
     // Create the TexturePool from the Renderer.
-    TexturePool<SDL_Texture*> texturePool(renderer.get(), "./resources/image/");
+    TexturePool texturePool(renderer.get(), "./resources/image/");
 
     // Load in a test image.
     texturePool.loadResource("Tv-test-pattern-146649_640.png", "test1");
