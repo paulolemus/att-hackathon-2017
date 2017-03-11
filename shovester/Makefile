@@ -24,8 +24,9 @@ OBJ_FILES := $(addprefix obj/, $(notdir $(CPP_FILES:.cpp=.o)))
 # The directories to search for includes from.
 ### Sometimes, header files are in other directories.
 ### This is where one might place those directory paths.
-TESTINCLUDEDIR = 
-INCLUDEDIR = -I$(TOP_DIR)/src/
+INCLUDEDIR = -I$(TOP_DIR)/src/ \
+	     -I$(TOP_DIR)/dep/sol2/
+TESTINCLUDEDIR =  $(INCLUDEDIR)
 
 # These are for including the libraries you want to use.
 ### Ignore these for now; we have not covered libraries yet.
@@ -38,16 +39,16 @@ LIBS = -lmingw32 \
 -lSDL2_mixer 
 
 TESTLIBSDIR =
-TESTLIBS = -lgtest -lpthread
+TESTLIBS = -lgtest -lpthread -llua
 
 # Flags for the linker step.
 LD_FLAGS  := $(INCLUDEDIR) $(LIBSDIR) $(LIBS) \
 
 # Flags for the C++ compilation step.
-CXX_FLAGS := -Wall -Wextra -pedantic --std=c++11 -g \
+CXX_FLAGS := -Wall -Wextra -pedantic --std=c++14 -g \
 			 $(INCLUDEDIR) $(LIBSDIR) $(LIBS) 
 
-TEST_FLAGS := -Wall -Wextra -pedantic --std=c++11 -g \
+TEST_FLAGS := -Wall -Wextra -pedantic --std=c++14 -g \
 			  $(INCLUDEDIR) $(TESTINCLUDEDIR) \
 			  $(LIBSDIR) $(TESTLIBSDIR) \
 			  $(LIBS) $(TESTLIBS)
