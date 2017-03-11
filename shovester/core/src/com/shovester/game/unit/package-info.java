@@ -5,4 +5,4 @@
  * @author aytas
  *
  */
-package Calculator;
+package com.shovester.game.unit;
