@@ -22,6 +22,13 @@ public:
         path(path),
         renderer(renderer) {}
 
+    /// @brief Frees the textures in the map.
+    ~TexturePool() {
+        for (auto it : pool) {
+            SDL_DestroyTexture(it.second);
+        }
+    }
+
     virtual void loadResource (std::string key, std::string label = "") override {
         SDL_Surface* surface = NULL;
         SDL_Texture* texture = NULL;

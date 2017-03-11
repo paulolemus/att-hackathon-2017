@@ -99,7 +99,9 @@ test: $(TEST_SINGLE_EXECUTABLE)
 
 run-test: $(TEST_SINGLE_EXECUTABLE)
 	@echo "Test case: " $(value TESTCASE)
+	cd ./tests/
 	$(TEST_SINGLE_EXECUTABLE)
+	cd ../
 
 $(TEST_SINGLE_EXECUTABLE): $(TEST_SINGLE_FILE)
 	$(CXX) -o $@ $^ $(TEST_FLAGS)
