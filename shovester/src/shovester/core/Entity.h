@@ -21,6 +21,7 @@ public:
                 return it;
             }
         }
+        return nullptr;
     }
 
     void addComponent(Component* comp) {
