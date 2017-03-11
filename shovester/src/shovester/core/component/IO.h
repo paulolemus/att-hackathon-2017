@@ -1,5 +1,5 @@
-#ifndef SHOVESTER_CORE_COMPONENT_CONTROLLER_H
-#define SHOVESTER_CORE_COMPONENT_CONTROLLER_H
+#ifndef SHOVESTER_CORE_COMPONENT_IO_H
+#define SHOVESTER_CORE_COMPONENT_IO_H
 
 #include <string>
 
@@ -7,14 +7,14 @@
 
 /// @brief Should be only updated once per update cycle.
 template <typename ReactiveData>
-class Controller : public Component {
+class IO : public Component {
 public:
 
     virtual std::string getName() const override {
         return this->name;    
     }
 
-    Controller(std::string name, ReactiveData rdata) :
+    IO(std::string name, ReactiveData rdata) :
         name(name),
         updatedFlag(false),
         data(rdata) {}
@@ -39,4 +39,4 @@ private:
     ReactiveData data;
 };
 
-#endif // SHOVESTER_CORE_COMPONENT_CONTROLLER_H
+#endif // SHOVESTER_CORE_COMPONENT_IO_H
