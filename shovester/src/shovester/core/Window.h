@@ -20,8 +20,6 @@ public:
         flags(flags),
         window(NULL) {
        
-        SDL_Init(SDL_INIT_VIDEO);
-
         window = SDL_CreateWindow(
             title.c_str(),
             SDL_WINDOWPOS_UNDEFINED,
@@ -45,6 +43,8 @@ public:
         // Close and destroy the Window.
         SDL_DestroyWindow(window);
     }
+
+    SDL_Window* get() { return this->window; }
 private:
     std::string title;
     int         width;
