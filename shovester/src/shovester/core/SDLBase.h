@@ -12,6 +12,7 @@
 #include <SDL2/SDL_mixer.h>
 
 class SDLBase {
+public:
     SDLBase() {
         // Failed to initialize SDL base.
         if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
