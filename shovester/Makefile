@@ -1,5 +1,7 @@
 CXX := c++
 
+TOP_DIR := $(shell pwd)
+
 # Find all the names of CPP files in the src directory.
 CPP_FILES := $(wildcard src/*.cpp)
 H_FILES := $(wildcard src/*.h)
@@ -23,7 +25,7 @@ OBJ_FILES := $(addprefix obj/, $(notdir $(CPP_FILES:.cpp=.o)))
 ### Sometimes, header files are in other directories.
 ### This is where one might place those directory paths.
 TESTINCLUDEDIR = 
-INCLUDEDIR = -Isrc/
+INCLUDEDIR = -I$(TOP_DIR)/src/
 
 # These are for including the libraries you want to use.
 ### Ignore these for now; we have not covered libraries yet.

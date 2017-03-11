@@ -1,0 +1,8 @@
+#ifndef SHOVESTER_CORE_SYSTEM_H
+#define SHOVESTER_CORE_SYSTEM_H
+
+class System {
+
+};
+
+#endif // SHOVESTER_CORE_SYSTEM_H
