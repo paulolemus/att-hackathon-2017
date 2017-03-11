@@ -83,6 +83,9 @@ clean-tests-docs:
 clean-tests:
 	rm -rf tests/*.out
 
+clean-test:
+	rm tests/$(TESTCASE).out
+
 run:
 	cd bin; ./main; cd ../
 
