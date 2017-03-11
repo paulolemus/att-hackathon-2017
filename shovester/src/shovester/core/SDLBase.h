@@ -40,7 +40,7 @@ public:
         }
 
         // SDL_Mixer open audio channel.
-        if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 1024) != 0) {
+        if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024) != 0) {
             std::cerr << "Audio mixer open audio failed.\n";
             throw std::runtime_error(Mix_GetError());
         }
