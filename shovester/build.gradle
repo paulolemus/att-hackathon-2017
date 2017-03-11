@@ -5,11 +5,19 @@ buildscript {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         jcenter()
     }
+
+
     dependencies {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
         classpath 'com.android.tools.build:gradle:1.5.0'
         classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.0'
     }
+}
+
+apply plugin: 'java'
+
+dependencies {
+    testCompile 'junit:junit:4.12'
 }
 
 allprojects {
