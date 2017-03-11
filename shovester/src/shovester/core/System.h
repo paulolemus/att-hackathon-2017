@@ -1,8 +1,7 @@
 #ifndef SHOVESTER_CORE_SYSTEM_H
 #define SHOVESTER_CORE_SYSTEM_H
 
-class System {
-
-};
+#include <shovester/core/SDLBase.h>
+#include <shovester/core/Window.h>
 
 #endif // SHOVESTER_CORE_SYSTEM_H

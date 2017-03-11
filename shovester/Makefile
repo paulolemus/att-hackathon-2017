@@ -30,12 +30,18 @@ INCLUDEDIR = -I$(TOP_DIR)/src/
 # These are for including the libraries you want to use.
 ### Ignore these for now; we have not covered libraries yet.
 LIBSDIR = 
-LIBS = 
+LIBS = -lmingw32 \
+-lSDL2main \
+-lSDL2 \
+-lSDL2_image \
+-lSDL2_ttf \
+-lSDL2_mixer 
+
 TESTLIBSDIR =
 TESTLIBS = -lgtest -lpthread
 
 # Flags for the linker step.
-LD_FLAGS  := $(INCLUDEDIR) $(LIBSDIR) $(LIBS)
+LD_FLAGS  := $(INCLUDEDIR) $(LIBSDIR) $(LIBS) \
 
 # Flags for the C++ compilation step.
 CXX_FLAGS := -Wall -Wextra -pedantic --std=c++11 -g \
@@ -54,7 +60,7 @@ all: bin/main
 
 # Build the main executable and place inside the (bin)ary directory..
 bin/main: $(OBJ_FILES)
-	$(CXX) -o $@ $^ $(CXX_FLAGS)
+	$(CXX) -o $@ $^ $(CXX_FLAGS) $(LD_FLAGS)
 
 # A rule to build all the object files from the source files.
 obj/%.o: src/%.cpp
