@@ -1,8 +1,9 @@
 #ifndef SHOVESTER_CORE_PLAYER_H_
 #define SHOVESTER_CORE_PLAYER_H_
 
+#include <cmath>
 #include <vector>
-#include "Entity.h"
+#include "core/Entity.h"
 #include "core/Component.h"
 #include "core/component/Physics.h"
 #include "core/component/Sprite.h"
@@ -11,6 +12,7 @@ class Player : public Entity {
 public:
     Player(std::vector<Component*> components) :
         Entity(components),
+        maxSpeed(25),
         isDead(false),
         isAttacking(false)
     {
@@ -31,15 +33,33 @@ public:
     }
 
     void move(float x, float y){
-        
+        float currX = dynamic_cast<Physics*>(getComponent(phys))->getX();
+        float currY = dynamic_cast<Physics*>(getComponent(phys))->getY();
+        float deltaX;
+        float deltaY;
         if(!isAttacking){
-
+            deltaX = x - currX;
+            deltaY = y - currY;
+            if(sqrt(deltaX * deltaX + deltaY * deltaY) > maxSpeed){
+                float length = sqrt(deltaX * deltaX + deltaY * deltaY);
+                deltaX /= length;
+                deltaY /= length;
+                deltaX *= maxSpeed;
+                deltaY *= maxSpeed;
+            }
+            b2Vec2 vec(deltaX, deltaY);
+            dynamic_cast<Physics*>(getComponent(phys))->applyImpulse(vec);
         }
+    }
+
+    void update(float delta){
+        
     }
     
 private:
     std::string phys;
     std::string sprite;
+    const float maxSpeed;
     bool isDead;
     bool isAttacking;
 };
