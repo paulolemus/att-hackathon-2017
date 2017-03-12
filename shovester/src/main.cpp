@@ -33,12 +33,21 @@ int main(int argc, char** argv) {
     SDL_SetRenderDrawColor(renderer.get(), 255, 255, 255, 255);
 
     // Create the texture pool.
-    TexturePool texturePoool(renderer.get(), "./resources/image/");
+    TexturePool texturePool(renderer.get(), "./resources/image/");
+
     //////////////////////////////////////////////////
-    // NEED TO LOAD TEXTURES HERE
+    // Loading required textures.
     //////////////////////////////////////////////////
+    texturePool.loadResource("ghost_sheet.png", "enemyGhost");
+    texturePool.loadResource("player.png", "player");
+    texturePool.loadResource("bg.png", "background");
     //////////////////////////////////////////////////
-    // NEED TO SETUP THE ANIMATION FRAME BOXES HERE
+    // Getting vectors of animation frame specs.
+    //////////////////////////////////////////////////
+    
+    //////////////////////////////////////////////////
+    // Defining Entity Sprite components with the
+    // given information of Textures and rectangles.
     //////////////////////////////////////////////////
 
 
@@ -73,7 +82,6 @@ int main(int argc, char** argv) {
     //////////////////////////////////////////////////
     // Main loop.
     //////////////////////////////////////////////////
-
     bool done = false;
     while (!done) {
 
