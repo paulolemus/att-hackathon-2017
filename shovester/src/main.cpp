@@ -67,7 +67,7 @@ int main(int argc, char** argv) {
     // given information of Textures and rectangles.
     //////////////////////////////////////////////////
 
-    Sprite* ptrSprite = new Sprite{
+    Sprite ptrSprite {
         "SPRITE-player",
         texturePool.getResource("player"),
         player};
@@ -103,11 +103,11 @@ int main(int argc, char** argv) {
     circleShape.m_radius = 1.5;
     fixDef.shape = &circleShape;
     fixDef.density = 0.9f;
-    Physics* playerPhys = new Physics("phys", &world, bodyDef, fixDef);
+    Physics playerPhys ("phys", &world, bodyDef, fixDef);
 
     std::vector<Component*> componentsPlayer;
-    componentsPlayer.push_back(playerPhys);
-    componentsPlayer.push_back(ptrSprite);
+    componentsPlayer.push_back(&playerPhys);
+    componentsPlayer.push_back(&ptrSprite);
 
     Player playerObj(componentsPlayer);
 
@@ -140,6 +140,8 @@ int main(int argc, char** argv) {
     //////////////////////////////////////////////////
     auto update = [&](InputData input) {
         playerObj.move(input.x, input.y);
+        playerObj.update(input.msDelta*1000.0);
+        world.Step(1.0/30.0, 8, 3);
     };
 
 
@@ -152,13 +154,22 @@ int main(int argc, char** argv) {
         // Render the background first.
         const SDL_Rect bgRect = {0, 0, 1280, 720};
         SDL_RenderCopy(
-                renderer.get(),
-                texturePool.getResource("background"),
-                &bgRect,
-                &bgRect
-                );
+            renderer.get(),
+            texturePool.getResource("background"),
+            &bgRect,
+            &bgRect
+        );
 
         // Render Player
+        auto playerSpriteComponent = dynamic_cast<Sprite*>(playerObj.getComponent("SPRITE-player"));
+        SDL_RenderCopy(
+            renderer.get(),
+            playerSpriteComponent->getTexture(),
+            nullptr,
+            &playerObj.getLocationRect()
+        );
+
+
 
         // Render enemies
         SDL_RenderPresent(renderer.get());

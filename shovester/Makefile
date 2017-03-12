@@ -36,7 +36,9 @@ LIBS = -lmingw32 \
 -lSDL2 \
 -lSDL2_image \
 -lSDL2_ttf \
--lSDL2_mixer 
+-lSDL2_mixer \
+-lBox2D \
+-lm
 
 TESTLIBSDIR =
 TESTLIBS = -lgtest -lpthread -llua

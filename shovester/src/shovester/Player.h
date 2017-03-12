@@ -13,6 +13,7 @@ public:
     Player(std::vector<Component*> components) :
         Entity(components),
         maxSpeed(25),
+        location({1280/2 - 64, 720/2 - 64, 128, 128}),
         isDead(false),
         isAttacking(false)
     {
@@ -48,15 +49,23 @@ public:
                 deltaY *= maxSpeed;
             }
             b2Vec2 vec(deltaX, deltaY);
+            std::cout << "deltax/y: " <<  deltaX<< ',' << deltaY << std::endl;
             dynamic_cast<Physics*>(getComponent(phys))->applyImpulse(vec);
         }
     }
 
     void update(float delta){
-        
+        // Update the position of the box.
+        this->location.x = dynamic_cast<Physics*>(getComponent(phys))->getX();
+        this->location.y = dynamic_cast<Physics*>(getComponent(phys))->getY();
+
+        std::cout << location.x << ',' << location.y << std::endl;
     }
+
+    SDL_Rect& getLocationRect() { return this->location; }
     
 private:
+    SDL_Rect location; 
     std::string phys;
     std::string sprite;
     const float maxSpeed;
