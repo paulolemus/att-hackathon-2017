@@ -3,10 +3,10 @@
 
 #include <cmath>
 #include <vector>
-#include "core/Entity.h"
-#include "core/Component.h"
-#include "core/component/Physics.h"
-#include "core/component/Sprite.h"
+#include "shovester/core/Entity.h"
+#include "shovester/core/Component.h"
+#include "shovester/core/component/Physics.h"
+#include "shovester/core/component/Sprite.h"
 
 class Player : public Entity {
 public:
