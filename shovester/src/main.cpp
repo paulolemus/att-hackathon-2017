@@ -46,7 +46,16 @@ int main(int argc, char** argv) {
     //////////////////////////////////////////////////
     // Getting vectors of animation frame specs.
     //////////////////////////////////////////////////
-    
+    vector<SDL_Rect> enemyGhost;
+    	enemyGhost.push_back(enemyGhost.x, enemyGhost.y, enemyGhost.w, enemyGhost.h);
+    vector<SDL_Rect> player;
+    	player.push_back(player.x, player.y, player.w, player.h);
+
+    vector<SDL_Rect> background;
+    	background.push_back(background.x, background.y, background.w, background.h);
+
+
+
     //////////////////////////////////////////////////
     // Defining Entity Sprite components with the
     // given information of Textures and rectangles.
