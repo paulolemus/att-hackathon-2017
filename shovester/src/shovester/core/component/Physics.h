@@ -31,6 +31,8 @@ public:
         body->ApplyLinearImpulse(b2Vec2(x, y), body->GetWorldCenter(), true);
     }
 
+    void stop(){ body->SetLinearVelocity(b2Vec2(0, 0)); }
+
     b2Body* getBody() { return body; }
     std::string getName() const { return name; }
 
