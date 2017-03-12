@@ -127,7 +127,6 @@ int main(int argc, char** argv) {
     };
 
 
-
     //////////////////////////////////////////////////
     // Main loop.
     //////////////////////////////////////////////////
@@ -150,6 +149,7 @@ int main(int argc, char** argv) {
                 done = true;
                 break;
             } else if (event.type == SDL_MOUSEBUTTONDOWN) {
+                // Gathering data.
                 inputData.action = InputData::Action::PUSHDOWN;
                 inputData.x = event.motion.x; 
                 inputData.y = event.motion.y;
@@ -158,13 +158,18 @@ int main(int argc, char** argv) {
                 last_time = clock::now();
 
 
+                ////////////////////////////////////////////////////////////
                 std::cout << "inputData(PUSHDOWN): ("
                     << inputData.x << ','
                     << inputData.y << ','
                     << inputData.msDelta << ','
                     << static_cast<int>(inputData.action) << ')'
                     << std::endl;
+                ////////////////////////////////////////////////////////////
+
+                
             } else if (event.type == SDL_MOUSEBUTTONUP) {
+                // Gathering input data into InputData struct.
                 inputData.action = InputData::Action::RELEASE;
                 inputData.x = event.motion.x; 
                 inputData.y = event.motion.y;
@@ -172,12 +177,14 @@ int main(int argc, char** argv) {
                     std::chrono::duration_cast<std::chrono::milliseconds>(current_time - last_time).count();
                 last_time = clock::now();
 
+                ////////////////////////////////////////////////////////////
                 std::cout << "inputData(RELEASE): ("
                     << inputData.x << ','
                     << inputData.y << ','
                     << inputData.msDelta << ','
                     << static_cast<int>(inputData.action) << ')'
                     << std::endl;
+                ////////////////////////////////////////////////////////////
             }
         }
         update();
