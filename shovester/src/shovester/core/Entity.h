@@ -50,7 +50,7 @@ public:
     }
       
 
-private:
+protected:
     std::string name;
     std::vector<Component*> components;
 };
