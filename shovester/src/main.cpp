@@ -9,6 +9,7 @@
 #include "shovester/core/MixChunkPool.h"  
 #include "shovester/core/component/IO.h"  
 #include "shovester/core/component/GUI.h"  
+#include "shovester/core/component/Physics.h"  
 #include "shovester/core/component/SoundEffect.h"  
 #include "shovester/core/component/Sprite.h"  
 #include "shovester/core/component/StringTable.h"  
@@ -68,7 +69,24 @@ int main(int argc, char** argv) {
 // Creating entities.
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
-    
+
+    // WORLD - ALL PHYSICS DONE HERE
+    b2World world( b2Vec2(0, 0) );
+
+    // Player setup  COMMENT THIS IF ERRORS
+    b2BodyDef bodyDef;
+    b2FixtureDef fixDef;
+    b2CircleShape circleShape;
+    bodyDef.type - b2_dynamicBody;
+    bodyDef.position.Set(1280 / 2.0, 720 / 2.0);
+    bodyDef.angle = 0;
+    circleShape.m_p.Set(0, 0);
+    circleShape.m_radius = 1.5;
+    fixDef.shape = &circleShape;
+    fixDef.density = 0.9f;
+    Physics playerPhys("phys", &world, bodyDef, fixDef);
+
+
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
