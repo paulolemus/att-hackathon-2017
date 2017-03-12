@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <chrono>
 
 #include "shovester/core/System.h"
 #include "shovester/core/Entity.h"  
@@ -56,19 +57,18 @@ int main(int argc, char** argv) {
     //////////////////////////////////////////////////
     // NEED TO LOAD SOUND EFFECTS HERE
     //////////////////////////////////////////////////
-    soundEffectPool.load_resource("damage1.wav", "damage1");
-    soundEffectPool.load_resource("damage2.wav", "damage2");
-    soundEffectPool.load_resource("damage3.wav", "damage3");
-    soundEffectPool.load_resource("game_over.wav", "gameOver");
-    soundEffectPool.load_resource("respawn.wav", "respawn");
-
+    soundEffectPool.loadResource("damage1.wav", "damage1");
+    soundEffectPool.loadResource("damage2.wav", "damage2");
+    soundEffectPool.loadResource("damage3.wav", "damage3");
+    soundEffectPool.loadResource("game_over.wav", "gameOver");
+    soundEffectPool.loadResource("respawn.wav", "respawn");
     
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 // Creating entities.
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
-
+    
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
@@ -85,7 +85,21 @@ int main(int argc, char** argv) {
     // Rendering function
     //////////////////////////////////////////////////
     auto render = [&]() {
-    
+        // Clear the screen
+        SDL_RenderClear(renderer.get());
+        // Render the background first.
+        const SDL_Rect bgRect = {0, 0, 1280, 720};
+        SDL_RenderCopy(
+            renderer.get(),
+            texturePool.getResource("background"),
+            &bgRect,
+            &bgRect
+        );
+        
+        // Render Player
+
+        // Render enemies
+        SDL_RenderPresent(renderer.get());
     };
 
     //////////////////////////////////////////////////
@@ -98,11 +112,76 @@ int main(int argc, char** argv) {
     Mix_FadeInMusic(bgMusic, -1, 10000);
 
     //////////////////////////////////////////////////
+    // The input data structure.
+    //////////////////////////////////////////////////
+
+    struct InputData {
+        enum class Action : int {
+            PUSHDOWN,
+            RELEASE
+        };
+        Action action;
+        float x;
+        float y;
+        float msDelta;
+    };
+
+
+
+    //////////////////////////////////////////////////
     // Main loop.
     //////////////////////////////////////////////////
     bool done = false;
-    while (!done) {
+    // Recording input data.
+    InputData inputData;
 
+    //////////////////////////////////////////////////
+    // Recording the time between click down and up.
+    //////////////////////////////////////////////////
+    using clock = std::chrono::high_resolution_clock;
+    auto last_time = clock::now();
+
+    while (!done) {
+        auto current_time = clock::now();
+        SDL_Event event;
+        // Getting input
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) {
+                done = true;
+                break;
+            } else if (event.type == SDL_MOUSEBUTTONDOWN) {
+                inputData.action = InputData::Action::PUSHDOWN;
+                inputData.x = event.motion.x; 
+                inputData.y = event.motion.y;
+                inputData.msDelta =
+                    std::chrono::duration_cast<std::chrono::milliseconds>(current_time - last_time).count();
+                last_time = clock::now();
+
+
+                std::cout << "inputData(PUSHDOWN): ("
+                    << inputData.x << ','
+                    << inputData.y << ','
+                    << inputData.msDelta << ','
+                    << static_cast<int>(inputData.action) << ')'
+                    << std::endl;
+            } else if (event.type == SDL_MOUSEBUTTONUP) {
+                inputData.action = InputData::Action::RELEASE;
+                inputData.x = event.motion.x; 
+                inputData.y = event.motion.y;
+                inputData.msDelta =
+                    std::chrono::duration_cast<std::chrono::milliseconds>(current_time - last_time).count();
+                last_time = clock::now();
+
+                std::cout << "inputData(RELEASE): ("
+                    << inputData.x << ','
+                    << inputData.y << ','
+                    << inputData.msDelta << ','
+                    << static_cast<int>(inputData.action) << ')'
+                    << std::endl;
+            }
+        }
+        update();
+        render();
     }
 
     Mix_FadeOutMusic(10000);
