@@ -5,6 +5,7 @@
 
 #include <Box2D/Box2D.h>
 
+#include "shovester/Player.h"
 #include "shovester/core/System.h"
 #include "shovester/core/Entity.h"  
 #include "shovester/core/TexturePool.h"  
@@ -66,6 +67,10 @@ int main(int argc, char** argv) {
     // given information of Textures and rectangles.
     //////////////////////////////////////////////////
 
+    Sprite* ptrSprite = new Sprite{
+        "SPRITE-player",
+        texturePool.getResource("player"),
+        player};
 
 
     MixChunkPool soundEffectPool("./resources/sound/");
@@ -98,7 +103,15 @@ int main(int argc, char** argv) {
     circleShape.m_radius = 1.5;
     fixDef.shape = &circleShape;
     fixDef.density = 0.9f;
-    Physics playerPhys("phys", &world, bodyDef, fixDef);
+    Physics* playerPhys = new Physics("phys", &world, bodyDef, fixDef);
+
+    std::vector<Component*> componentsPlayer;
+    componentsPlayer.push_back(playerPhys);
+    componentsPlayer.push_back(ptrSprite);
+
+    Player playerObj(componentsPlayer);
+
+
 
 
     ////////////////////////////////////////////////////////////
@@ -106,11 +119,28 @@ int main(int argc, char** argv) {
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////
+    // The input data structure.
+    //////////////////////////////////////////////////
+
+    struct InputData {
+        enum class Action : int {
+            PUSHDOWN,
+            RELEASE
+        };
+        Action action;
+        float x;
+        float y;
+        float msDelta;
+    };
 
     //////////////////////////////////////////////////
     // Updating function
     //////////////////////////////////////////////////
-    auto update = [&]() {};
+    auto update = [&](InputData input) {
+        playerObj.move(input.x, input.y);
+    };
 
 
     //////////////////////////////////////////////////
@@ -143,20 +173,6 @@ int main(int argc, char** argv) {
     }
     Mix_FadeInMusic(bgMusic, -1, 10000);
 
-    //////////////////////////////////////////////////
-    // The input data structure.
-    //////////////////////////////////////////////////
-
-    struct InputData {
-        enum class Action : int {
-            PUSHDOWN,
-            RELEASE
-        };
-        Action action;
-        float x;
-        float y;
-        float msDelta;
-    };
 
 
     //////////////////////////////////////////////////
@@ -219,7 +235,7 @@ int main(int argc, char** argv) {
                 ////////////////////////////////////////////////////////////
             }
         }
-        update();
+        update(inputData);
         render();
     }
 
