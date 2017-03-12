@@ -3,6 +3,8 @@
 #include <string>
 #include <chrono>
 
+#include <Box2D/Box2D.h>
+
 #include "shovester/core/System.h"
 #include "shovester/core/Entity.h"  
 #include "shovester/core/TexturePool.h"  
@@ -20,18 +22,18 @@ int main(int argc, char** argv) {
     SDLBase sdlbase;
     // Create the window.
     Window window(
-        "Shovester!",
-        1280,
-        720,
-        SDL_WINDOW_OPENGL
-    );
+            "Shovester!",
+            1280,
+            720,
+            SDL_WINDOW_OPENGL
+            );
     // Create the renderer.
     Renderer renderer(window.get());
     // Setup the renderer
     SDL_SetRenderDrawBlendMode(
-        renderer.get(),
-        SDL_BLENDMODE_BLEND
-    );
+            renderer.get(),
+            SDL_BLENDMODE_BLEND
+            );
     SDL_SetRenderDrawColor(renderer.get(), 255, 255, 255, 255);
 
     // Create the texture pool.
@@ -46,13 +48,16 @@ int main(int argc, char** argv) {
     //////////////////////////////////////////////////
     // Getting vectors of animation frame specs.
     //////////////////////////////////////////////////
-    vector<SDL_Rect> enemyGhost;
-    	enemyGhost.push_back(enemyGhost.x, enemyGhost.y, enemyGhost.w, enemyGhost.h);
-    vector<SDL_Rect> player;
-    	player.push_back(player.x, player.y, player.w, player.h);
+    std::vector<SDL_Rect> enemyGhost;
+    enemyGhost.push_back({0, 0, 128, 128});
+    enemyGhost.push_back({128, 0, 128, 128});
+    enemyGhost.push_back({256, 0, 128, 128});
+    enemyGhost.push_back({384, 0, 128, 128});
+    std::vector<SDL_Rect> player;
+    player.push_back({0, 0, 128, 128});
 
-    vector<SDL_Rect> background;
-    	background.push_back(background.x, background.y, background.w, background.h);
+    std::vector<SDL_Rect> background;
+    background.push_back({0, 0, 1280, 720});
 
 
 
@@ -72,12 +77,12 @@ int main(int argc, char** argv) {
     soundEffectPool.loadResource("damage3.wav", "damage3");
     soundEffectPool.loadResource("game_over.wav", "gameOver");
     soundEffectPool.loadResource("respawn.wav", "respawn");
-    
-////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////
-// Creating entities.
-////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    // Creating entities.
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
 
     // WORLD - ALL PHYSICS DONE HERE
     b2World world( b2Vec2(0, 0) );
@@ -86,7 +91,7 @@ int main(int argc, char** argv) {
     b2BodyDef bodyDef;
     b2FixtureDef fixDef;
     b2CircleShape circleShape;
-    bodyDef.type - b2_dynamicBody;
+    bodyDef.type = b2_dynamicBody;
     bodyDef.position.Set(1280 / 2.0, 720 / 2.0);
     bodyDef.angle = 0;
     circleShape.m_p.Set(0, 0);
@@ -96,11 +101,11 @@ int main(int argc, char** argv) {
     Physics playerPhys("phys", &world, bodyDef, fixDef);
 
 
-////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
 
     //////////////////////////////////////////////////
     // Updating function
@@ -117,12 +122,12 @@ int main(int argc, char** argv) {
         // Render the background first.
         const SDL_Rect bgRect = {0, 0, 1280, 720};
         SDL_RenderCopy(
-            renderer.get(),
-            texturePool.getResource("background"),
-            &bgRect,
-            &bgRect
-        );
-        
+                renderer.get(),
+                texturePool.getResource("background"),
+                &bgRect,
+                &bgRect
+                );
+
         // Render Player
 
         // Render enemies
