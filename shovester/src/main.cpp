@@ -4,6 +4,8 @@
 
 #include "shovester/core/System.h"
 #include "shovester/core/Entity.h"  
+#include "shovester/core/TexturePool.h"  
+#include "shovester/core/MixChunkPool.h"  
 #include "shovester/core/component/IO.h"  
 #include "shovester/core/component/GUI.h"  
 #include "shovester/core/component/SoundEffect.h"  
@@ -31,22 +33,47 @@ int main(int argc, char** argv) {
     SDL_SetRenderDrawColor(renderer.get(), 255, 255, 255, 255);
 
     // Create the texture pool.
-    TexturePool texturePoool(renderer.get(), "./resources/image/");
+    TexturePool texturePool(renderer.get(), "./resources/image/");
+
     //////////////////////////////////////////////////
-    // NEED TO LOAD TEXTURES HERE
+    // Loading required textures.
     //////////////////////////////////////////////////
+    texturePool.loadResource("ghost_sheet.png", "enemyGhost");
+    texturePool.loadResource("player.png", "player");
+    texturePool.loadResource("bg.png", "background");
     //////////////////////////////////////////////////
-    // NEED TO SETUP THE ANIMATION FRAME BOXES HERE
+    // Getting vectors of animation frame specs.
+    //////////////////////////////////////////////////
+    
+    //////////////////////////////////////////////////
+    // Defining Entity Sprite components with the
+    // given information of Textures and rectangles.
     //////////////////////////////////////////////////
 
 
 
-    MixChunkPool soundEffectPool("./resources/sound/")
+    MixChunkPool soundEffectPool("./resources/sound/");
     //////////////////////////////////////////////////
     // NEED TO LOAD SOUND EFFECTS HERE
     //////////////////////////////////////////////////
+    soundEffectPool.load_resource("damage1.wav", "damage1");
+    soundEffectPool.load_resource("damage2.wav", "damage2");
+    soundEffectPool.load_resource("damage3.wav", "damage3");
+    soundEffectPool.load_resource("game_over.wav", "gameOver");
+    soundEffectPool.load_resource("respawn.wav", "respawn");
 
+    
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+// Creating entities.
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 
     //////////////////////////////////////////////////
     // Updating function
@@ -57,17 +84,28 @@ int main(int argc, char** argv) {
     //////////////////////////////////////////////////
     // Rendering function
     //////////////////////////////////////////////////
-    auto render = [&]() {};
+    auto render = [&]() {
+    
+    };
+
+    //////////////////////////////////////////////////
+    // Begin the music.
+    //////////////////////////////////////////////////
+    Mix_Music* bgMusic = Mix_LoadMUS("./resources/sound/732646_Flower-Math.mp3");
+    if (bgMusic == nullptr) {
+        throw std::runtime_error(Mix_GetError());
+    }
+    Mix_FadeInMusic(bgMusic, -1, 10000);
 
     //////////////////////////////////////////////////
     // Main loop.
     //////////////////////////////////////////////////
-
     bool done = false;
     while (!done) {
 
     }
 
+    Mix_FadeOutMusic(10000);
     //////////////////////////////////////////////////
     // Destruction and release of resources happens
     // here automatically.
