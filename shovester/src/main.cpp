@@ -4,6 +4,8 @@
 
 #include "shovester/core/System.h"
 #include "shovester/core/Entity.h"  
+#include "shovester/core/TexturePool.h"  
+#include "shovester/core/MixChunkPool.h"  
 #include "shovester/core/component/IO.h"  
 #include "shovester/core/component/GUI.h"  
 #include "shovester/core/component/SoundEffect.h"  
@@ -41,7 +43,7 @@ int main(int argc, char** argv) {
 
 
 
-    MixChunkPool soundEffectPool("./resources/sound/")
+    MixChunkPool soundEffectPool("./resources/sound/");
     //////////////////////////////////////////////////
     // NEED TO LOAD SOUND EFFECTS HERE
     //////////////////////////////////////////////////
@@ -60,6 +62,15 @@ int main(int argc, char** argv) {
     auto render = [&]() {};
 
     //////////////////////////////////////////////////
+    // Begin the music.
+    //////////////////////////////////////////////////
+    Mix_Music* bgMusic = Mix_LoadMUS("./resources/sound/732646_Flower-Math.mp3");
+    if (bgMusic == nullptr) {
+        throw std::runtime_error(Mix_GetError());
+    }
+    Mix_FadeInMusic(bgMusic, -1, 10000);
+
+    //////////////////////////////////////////////////
     // Main loop.
     //////////////////////////////////////////////////
 
@@ -68,6 +79,7 @@ int main(int argc, char** argv) {
 
     }
 
+    Mix_FadeOutMusic(10000);
     //////////////////////////////////////////////////
     // Destruction and release of resources happens
     // here automatically.
